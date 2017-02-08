@@ -328,11 +328,11 @@ kbd {
 
 <body>
 
-<h1 id="toc_0">Vue核心之数据劫持</h1>
+<h1 id="toc_0">Vue框架核心之数据劫持</h1>
 
 <h2 id="toc_1">前瞻</h2>
 
-<p>当前前端界空前繁荣，各种框架横空出世，包括各类mvvm框架横行霸道，比如Anglar,Regular,Vue,React等等，它们最大的优点就是可以实现数据绑定，再也不需要手动进行DOM操作了，它们实现的原理也基本上是脏检查或数据劫持。那么本文就以Vue框架出发，探索作者运用Object.defineProperty来实现数据劫持的奥秘（本文所选取的相关代码源自于Vue v2.0.3版本的源码）。</p>
+<p>当前前端界空前繁荣，各种框架横空出世，包括各类mvvm框架横行霸道，比如Angular、Regular、Vue、React等等，它们最大的优点就是可以实现数据绑定，再也不需要手动进行DOM操作了，它们实现的原理也基本上是脏检查或数据劫持。那么本文就以Vue框架出发，探索作者运用Object.defineProperty来实现数据劫持的奥秘（本文所选取的相关代码源自于Vue v2.0.3版本的源码）。</p>
 
 <h2 id="toc_2">回顾一下Object.defineProperty</h2>
 
@@ -389,7 +389,7 @@ data.name = &#39;hxx&#39; //控制台会打印出 &quot;监听到数据发生了
 
 <h3 id="toc_4">监听对象属性的变化</h3>
 
-<p>这个应该是Vue敲开数据绑定的前大门，它通过observer每个对象的属性，添加到订阅器dep中，当数据发生变化的时候发出一个notice。
+<p>这个应该是Vue敲开数据绑定的前大门，它通过observe每个对象的属性，添加到订阅器dep中，当数据发生变化的时候发出一个notice。
 相关源代码如下：（作者采用的是ES6+flow写的，代码在src/core/observer/index.js模块里面）</p>
 
 <div><pre><code class="language-none">export function defineReactive (
@@ -533,6 +533,13 @@ var bar = [1,2];
 bar.__proto__ = arrayMethod;
 bar.push(3);//控制台会打印出 “已经控制了，哈哈”;并且bar里面已经成功的添加了成员 ‘3’ </code></pre></div>
 
+<p>整个过程看起来好像没有什么问题，似乎Vue已经做到了完美，其实不然，Vue还是不能检测到数据项和数组长度改变的变化，例如下面的调用：</p>
+
+<div><pre><code class="language-none">vm.items[index] = &quot;xxx&quot;;
+vm.items.length = 100;</code></pre></div>
+
+<p>我们尽量避免这样的调用方式，如果确实需要，作者也帮我们实现了一个$set操作，这里就不做介绍了。</p>
+
 <h3 id="toc_6">实现对象属性代理</h3>
 
 <p>正常情况下我们是这样实例化一个Vue对象:</p>
@@ -566,7 +573,7 @@ bar.push(3);//控制台会打印出 “已经控制了，哈哈”;并且bar里�
 
 <h2 id="toc_7">总结</h2>
 
-<p>Vue框架很好的利用了Object.defineProperty()这个方法来实现了数据的双向，同时也达到了很好的模块间解耦，在日常开发中，你也可以用好这个方法来优化对象获取和修改属性方式，或者自己实现一个MVVM的双向数据绑定等。</p>
+<p>Vue框架很好的利用了Object.defineProperty()这个方法来实现了数据的双向绑定，同时也达到了很好的模块间解耦，在日常开发中，你也可以用好这个方法来优化对象获取和修改属性方式，或者自己实现一个MVVM的双向数据绑定等。</p>
 
 <p>本篇文章是我对Vue的浅薄之悟，如有理解不足之处，还请大家批评指正，Thank you ～</p>
 
