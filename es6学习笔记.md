@@ -452,7 +452,78 @@ z // { a: 3, b: 4 }
  obj?.name
  ```
  
- ###Set 和 Map 数据结构
+ ###八、Set 和 Map 数据结构
+ 
+ ES6提供新的数据结构Set。它类似于数组，但是成员值都是唯一的，没有重复的值，Set本身是一个构造函数，用来生成Set数据结构
+ 
+ ```
+ const s = net Set();
+ [2,3,3,2,4,5,6].forEach(item => s.add(item));
+ console.log(s);//[2,3,4,5,6]
+ ```
+ Set可以很方便的用来处理数组去重操作
+ 
+ ```
+ [...new Set(array)]
+ ```
+ 向 Set 加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值；
+ 
+ Set结构的实例有size属性，返回实例的成员总数
+ Set实例的方法分为两种：操作方法（操作数据）和遍历方法（用于遍历成员）：    
+ 
+   - add(value) 添加某个值，返回Set结构本身
+   - delete(value) 删除某个值，返回一个布尔值，表示是否删除成功
+   - has(value) 返回一个布尔值，表示该值是否为Set成员
+   - clear() 清除所有成员，没有返回值
+  
+  Array.from 方法可以将Set结构转为数组，可以用于数组去重
+  
+  ```
+  function dedupe(array) {
+   		return Array.from(new Set(array));
+  }
+  dedupe([1, 1, 2, 3]) // [1, 2, 3]
+  ```
+  
+  ES6还提供了新的数据结构Map，传统上Object对象是键值对的集合（Hash 结构），但是只能用字符串当作键，Map的出现打破了这种限制，各种类型的值（包括对象）都可以当作键。
+  
+  ```
+  const m = new Map();
+  const o = {p: 'Hello World'};
+
+  m.set(o, 'content')
+  m.get(o) // "content"
+
+  m.has(o) // true
+  m.delete(o) // true
+  m.has(o) // false
+  ```
+  
+  Map作为构造函数也可以接受一个数组作为参数，该数组的成员是一个个表示键值对的数组：
+  
+  ```
+  const map = new Map([
+		['name', '张三'],
+		['title', 'Author']
+  ]);
+
+	map.size // 2
+	map.has('name') // true
+	map.get('name') // "张三"
+	map.has('title') // true
+	map.get('title') // "Author"
+  ```
+  
+ 注意如果对同一个键多次赋值，后面的值将覆盖前面的值。
+ 只有对同一个对象的引用，Map 结构才将其视为同一个键。这一点要非常小心。
+ 
+	```
+	const map = new Map();
+	map.set(['a'], 555);
+	map.get(['a']) // undefined
+	
+	```
+  
   
   
 

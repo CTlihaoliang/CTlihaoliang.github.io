@@ -730,7 +730,69 @@ z // { a: 3, b: 4 }</code></pre></div>
 
 <div><pre><code class="language-none">obj?.name</code></pre></div>
 
-<h3 id="toc_9">Set 和 Map 数据结构</h3></li>
+<h3 id="toc_9">八、Set 和 Map 数据结构</h3>
+
+<p>ES6提供新的数据结构Set。它类似于数组，但是成员值都是唯一的，没有重复的值，Set本身是一个构造函数，用来生成Set数据结构</p>
+
+<div><pre><code class="language-none">const s = net Set();
+[2,3,3,2,4,5,6].forEach(item =&gt; s.add(item));
+console.log(s);//[2,3,4,5,6]</code></pre></div>
+
+<p>Set可以很方便的用来处理数组去重操作</p>
+
+<div><pre><code class="language-none">[...new Set(array)]</code></pre></div>
+
+<p>向 Set 加入值的时候，不会发生类型转换，所以5和&quot;5&quot;是两个不同的值；</p>
+
+<p>Set结构的实例有size属性，返回实例的成员总数
+Set实例的方法分为两种：操作方法（操作数据）和遍历方法（用于遍历成员）：    </p>
+
+<ul>
+<li>add(value) 添加某个值，返回Set结构本身</li>
+<li>delete(value) 删除某个值，返回一个布尔值，表示是否删除成功</li>
+<li>has(value) 返回一个布尔值，表示该值是否为Set成员</li>
+<li>clear() 清除所有成员，没有返回值</li>
+</ul>
+
+<p>Array.from 方法可以将Set结构转为数组，可以用于数组去重</p>
+
+<div><pre><code class="language-none">function dedupe(array) {
+    return Array.from(new Set(array));
+}
+dedupe([1, 1, 2, 3]) // [1, 2, 3]</code></pre></div>
+
+<p>ES6还提供了新的数据结构Map，传统上Object对象是键值对的集合（Hash 结构），但是只能用字符串当作键，Map的出现打破了这种限制，各种类型的值（包括对象）都可以当作键。</p>
+
+<div><pre><code class="language-none">const m = new Map();
+const o = {p: &#39;Hello World&#39;};
+
+m.set(o, &#39;content&#39;)
+m.get(o) // &quot;content&quot;
+
+m.has(o) // true
+m.delete(o) // true
+m.has(o) // false</code></pre></div>
+
+<p>Map作为构造函数也可以接受一个数组作为参数，该数组的成员是一个个表示键值对的数组：</p>
+
+<div><pre><code class="language-none">const map = new Map([
+    [&#39;name&#39;, &#39;张三&#39;],
+    [&#39;title&#39;, &#39;Author&#39;]
+]);
+
+map.size // 2
+map.has(&#39;name&#39;) // true
+map.get(&#39;name&#39;) // &quot;张三&quot;
+map.has(&#39;title&#39;) // true
+map.get(&#39;title&#39;) // &quot;Author&quot;</code></pre></div>
+
+<p>注意如果对同一个键多次赋值，后面的值将覆盖前面的值。
+只有对同一个对象的引用，Map 结构才将其视为同一个键。这一点要非常小心。</p>
+
+<div><pre><code class="language-none">const map = new Map();
+map.set([&#39;a&#39;], 555);
+map.get([&#39;a&#39;]) // undefined
+</code></pre></div></li>
 </ul>
 
 
