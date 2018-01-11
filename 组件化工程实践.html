@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>组件化工程实践</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h2 id="toc_0">Vue项目组件化工程实践方案</h2>
+
+<blockquote>
+<p>前言：随着前端模块化、组件化的概念深入，很多团队都开始开发自己的UI组件库，但是在开发和使用过程中难免会出现各种各样的问题，比如文档缺失，创建组件需要各种手工操作，写个组件例子还得去实际应用模块里去检查组件是否Ok等等，于是我们团队结合自己项目的应用提取了一个UI组件化工程的脚手架，可以非常方便的生成一个UI组件库的工程，很多之前需要手工处理的问题都交给脚手架自动完成。</p>
+</blockquote>
+
+<h3 id="toc_1">UI组件库目录结构</h3>
+
+<p>我们暂时给提取出来的脚手架取名叫vde-cli，通过vde-cli脚手架生成的组件库工程目录结构如下：</p>
+
+<p><center>
+<img src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/fileStruct.jpg" alt="目录结构图图">
+</center></p>
+
+<h3 id="toc_2">核心功能</h3>
+
+<blockquote>
+<p>组件库</p>
+</blockquote>
+
+<p>工程的packages文件夹就是用来存放组件库里面的各种组件了，这里不需要通过手动创建文件的方式创建组件，直接通过一条创建组件的命令完成。每个组件都有一个单独的组件文件夹，组件文件夹下都至少包含&quot;index.vue&quot;，&quot;example.vue&quot;，&quot;readme.md&quot;这三个文件，这几个文件都是通过创建组件传递的参数加指定的模板生成，创建组件的命令如下：</p>
+
+<div><pre><code class="language-none">    npm run generate &lt;componentName&gt; &lt;componentTitle&gt;</code></pre></div>
+
+<p>两个参数分别是组件的名称和后面用来在文档和例子工程里显示的导航名称。</p>
+
+<p>组件库的对外主文件是工程的src/index.js，只要是通过上面的命令创建的组件，这个文件都会自动更新（省去你手工更新的时间）</p>
+
+<blockquote>
+<p>Doc文档工程</p>
+</blockquote>
+
+<p>Doc文档工程就是用来展示你组件文档的一个小型单页面系统。组件的文档就是存放在每个组件文件夹下的readme.md文件，我们通过vue-markdown-loader去解析这个文件变成一个vue组件也页面中显示。在你通过上面指令创建组件的时候，会自动更新Doc文档工程的所有依赖组件的部分（不需要任何手工操作）</p>
+
+<blockquote>
+<p>Example例子工程</p>
+</blockquote>
+
+<p>Example例子工程跟Doc文档工程类似，用来展示你组件的例子的小型单页面系统，组件的例子就是存放在每个组件文件夹下面的example.vue文件。在通过指令创建组件的完毕，就可以在该文件里测试你写的组件了。</p>
+
+<p>上面的文档工程和例子工程分别通过webpack-dev-sever起了一个对应的服务，添加组件和修改组件文件下的文件信息都会自动刷新这两个应用。</p>
+
+<p>用一张图来表示整个大工程的流程图如下：
+<center>
+<img src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/core.png" alt="流程图">
+</center></p>
+
+<h3 id="toc_3">主要实现方式</h3>
+
+<p>上面已经介绍了整个大工程其实是由组件库、文档工程和例子工程组成的，当然最核心的东西还是组件了，所以一切还需要从创建组件开始说起：</p>
+
+<p>所有的组件都存放在大工程的packages里面，也就是说packages是所有组件存放的根目录（跟组件配置信息相关）。
+首先需要说明的是，每个组件文件夹都至少包含组件主文件（index.vue）、组件例子文件（example.vue）、组件文档文件（readme.md)这三个文件。每个组件所包含的这三个文件又是分别通过一个对应的模板文件生成，这三个模板格式可以根据自己的需求自定义，大致类似于：
+<figure class="third">
+    <img width="180px" height="300px" src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/index.jpg">
+    <img width="200px" height="300px" src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/example.jpg">
+    <img width="170px" height="300px "src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/readme.jpg">
+</figure></p>
+
+<p>通过创建组件的命令传递两个参数，一个代表组件的名称（创建组件的文件夹名称），另外一个是组件的标题（用于文档工程和例子工程的导航名称显示）。有了这两个参数，我们就可以结合组件的模板文件生成对应的组件，然后将这些组件信息写入gen/route.json里面，因为文档工程和例子工程都非常依赖这些信息。
+组件创建完毕有一个很重要的工作就是自动往文档工程里面注册新的组件信息（docs/main.js）和更新组件库的对外主文件(src/index.js)，这两个文件也分别是通过模板生成的，模板格式分别如下：
+<figure class="half">
+    <img width="270px" height="280px" src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/docmain.jpg">
+    <img width="270px" height="280px" src="https://raw.githubusercontent.com/CTlihaoliang/reduxTodo/master/res/comindex.jpg">
+</figure></p>
+
+<h3 id="toc_4">使用</h3>
+
+<p>只需要四条命令就能开启一个自动化组件工程了：</p>
+
+<p>1、全局安装vde-cli模块   </p>
+
+<div><pre><code class="language-bash"> npm install -g vde-cli</code></pre></div>
+
+<p>2、初始化工程   </p>
+
+<div><pre><code class="language-bash">$ vde init &lt;project-name&gt;</code></pre></div>
+
+<p>3、安装所需要模块   </p>
+
+<div><pre><code class="language-bash">$ npm install</code></pre></div>
+
+<p>4、启动项目  </p>
+
+<div><pre><code class="language-bash">$ npm run start</code></pre></div>
+
+<p>然后整个工程就能运行起来了，应用的时候可以根据实际需求修改组件相关的模板和加入自己的组件库的其它配置信息就可以了。文档工程和例子工程的路由等信息都会在通过创建组件命令的时候自动更新，你在更改组件的文档和组件功能的时候，文档工程和例子工程都会实时更新。</p>
+
+<h4 id="toc_5">实际项目接入</h4>
+
+<p>这里推荐使用npm link的方式，在项目里npm link本地用vde init的那个工程即可。</p>
+
+<h4 id="toc_6">总结</h4>
+
+<p>通过这套工程可以提供：</p>
+
+<ul>
+<li>方便使用者查看组件详细文档</li>
+<li>打包输出一套UI库组件的文档</li>
+<li>方便开发者开发和查阅组件例子</li>
+<li>自动完成创建组件的过程</li>
+<li>提供一整套的组件化工程方案</li>
+</ul>
+
+<p>目前这个vue-cli脚手架是从内部项目抽离出来，也是为了能够给其它项目使用，个性化方面还是需要使用者自己添加。</p>
+
+<p>工程仓库地址：</p>
+
+<p><a href="https://github.com/imust98/vde">vde</a></p>
+
+<p><a href="https://github.com/imust98/vde-cli">vde-cli</a></p>
+
+
+
+
+</body>
+
+</html>
